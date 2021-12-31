@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Post;
 
 class ManagePostsTest extends TestCase
 {
@@ -49,7 +50,47 @@ class ManagePostsTest extends TestCase
     /** @test */
     public function user_can_browse_posts_index_page() : void
     {
-        $this->assertTrue(true);
+        // generate 2 record baru di table `posts`
+        $postOne = Post::create([
+            'title' => 'Belajar Laravel 8 edisi satu',
+            'content' => 'ini content belajar laravel 8 edisi satu',
+            'status' => 1,
+            'slug' => 'belajar-laravel-8-edisi-1'
+        ]);
+
+        $postTwo = Post::create([
+            'title' => 'Belajar Laravel 8 edisi dua',
+            'content' => 'ini content belajar laravel 8 edisi dua',
+            'status' => 1,
+            'slug' => 'belajar-laravel-8-edisi-2'
+        ]);
+
+        // user buka halaman index post
+        $this->visit('/post');
+
+        // user lihat dua title dari post yang digenerate
+        $this->see('Belajar Laravel 8 edisi satu');
+        $this->see('Belajar Laravel 8 edisi dua');
+
+        // user lihat button edit untuk masing-masing post
+        $this->seeElement('a', [
+            'id' => 'edit-post-' . $postOne->id,
+            'href' => route('post.edit', $postOne->id)
+        ]);
+
+        $this->seeElement('a', [
+            'id' => 'edit-post-' . $postTwo->id,
+            'href' => route('post.edit', $postTwo->id)
+        ]);
+
+        // user lihat button delete untuk masing-masing post
+        $this->seeElement('button', [
+            'id' => 'delete-post-' . $postOne->id
+        ]);
+
+        $this->seeElement('button', [
+            'id' => 'delete-post-' . $postTwo->id
+        ]);
 
     }
 
