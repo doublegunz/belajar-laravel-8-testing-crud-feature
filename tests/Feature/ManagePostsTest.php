@@ -97,7 +97,43 @@ class ManagePostsTest extends TestCase
     /** @test */
     public function user_can_edit_existing_post() : void
     {
-        $this->assertTrue(true);
+        // generate 1 data post
+        $post = Post::create([
+            'title' => 'Belajar laravel 8',
+            'content' => 'Ini content belajar laravel 8',
+            'status' => 1,
+            'slug' => 'belajar-laravel-8'
+        ]);
+
+        // user buka halaman daftar post
+        $this->visit('/post');
+
+        // user klik tombol edit post
+        $this->click('edit-post-' . $post->id);
+
+        // lihat halaman url yang dituju
+        $this->seePageIs("/post/{$post->id}/edit");
+
+        // tampil form edit data post
+        $this->seeElement('form', [
+            'action' => url('/post/' . $post->id)
+        ]);
+
+        // user submit data post yang diperbaharui
+        $this->submitForm('Update', [
+            'title' => 'Belajar Laravel 8 edisi revisi',
+            'content' => 'ini content belajar laravel 8 edisi revisi'
+        ]);
+
+        // lihat halaman web yang dialihkan
+        $this->seePageIs('/post');
+
+        // data post di database berubah sesuai dengan data yang disubmit
+        $this->seeInDatabase('posts', [
+            'id' => $post->id,
+            'title' => 'Belajar Laravel 8 edisi revisi',
+            'content' => 'ini content belajar laravel 8 edisi revisi'
+        ]);
     }
 
     /** @test  */
