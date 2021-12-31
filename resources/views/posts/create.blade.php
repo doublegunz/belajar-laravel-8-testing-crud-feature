@@ -34,7 +34,7 @@
                 <div class="card border-0 shadow rounded">
                     <div class="card-body">
 
-                        <form action="{{ route('post.store') }}" method="POST">
+                        <form id="create-post" action="{{ route('post.store') }}" method="POST">
                             @csrf
 
                             <div class="form-group">

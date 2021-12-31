@@ -25,7 +25,7 @@ class ManagePostsTest extends TestCase
         // tampil form create post
         $this->seeElement('form', [
             'id' => 'create-post',
-            'action' => url('/post/store')
+            'action' => route('post.store')
         ]);
 
         // user submit form berisi title, content, dan status
@@ -41,7 +41,7 @@ class ManagePostsTest extends TestCase
         // terdapat record baru sesuai dengan post yang disubmit user
         $this->seeInDatabase('posts', [
             'title' => 'Belajar Laravel 8',
-            'content' => 'ini content belajar laravel8',
+            'content' => 'ini content belajar laravel 8',
             'status' => 1
         ]);
     }

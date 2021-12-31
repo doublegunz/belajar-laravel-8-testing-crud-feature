@@ -31,7 +31,8 @@
 
                 <div class="card border-0 shadow rounded">
                     <div class="card-body">
-                        <a href="{{ route('post.create') }}" class="btn btn-md btn-success mb-3 float-right">New
+                        <a href="{{ route('post.create') }}" class="btn btn-md btn-success mb-3 float-right"
+                            id="create-new-post">New
                             Post</a>
 
                         <table class="table table-bordered mt-1">
